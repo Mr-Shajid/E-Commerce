@@ -4,7 +4,7 @@ const { successResponse } = require("../utils/apiResponse");
 
 const router = express.Router();
 
-router.get("/api/health", (req, res) => {
+router.get("/health", (req, res) => {
     const dbState = mongoose.connection.readyState;
     successResponse(res, 200, "API health check successful", {
         service : "mern ecommerce databse",

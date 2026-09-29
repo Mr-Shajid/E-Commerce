@@ -11,13 +11,13 @@ const openapi = {
 	},
 	servers: [
 		{
-			url: process.env.API_URL || 'http://localhost:5000/api',
+			url: process.env.API_URL || 'http://localhost:5000',
 			description: 'API server',
 		},
 	],
 	tags: [
 		{ name: 'Health', description: 'Service health' },
-		{ name: 'Authentication', description: 'User authentication' },
+		{ name: 'Auth', description: 'User authentication' },
 	],
 	paths: {
 		'/health': {
@@ -36,6 +36,21 @@ const openapi = {
 				},
 			},
 		},
+		'/api/auth/register': {
+			post: {
+				tags: ['Auth'],
+				summary: 'Register a Customer account',
+				requestBody: {
+					required: true,
+					content: {
+						"application/json": {
+							schema: { $ref: '#/components/schemas/RegisterRequest'}
+						}
+					}
+				}
+			},
+			response: {201: {description: "Register"},409: {description: "Email exists"}}
+		}
 	},
 	components: {
 		securitySchemes: {
@@ -45,7 +60,24 @@ const openapi = {
 				bearerFormat: 'JWT',
 			},
 		},
+		parameters: {
+			objectId: {
+				name: "id",
+				in: "path",
+				required: true,
+				schema: {type: "string"}
+			}
+		},
 		schemas: {
+			RegisterRequest: {
+				type: "object",
+				required: ["name", "email", "password"],
+				properties: {
+					name: {type: "string"}, 
+					email: {type: "string", format: "email"},
+					password: {type: "string", format: "password"}
+				}
+			},
 			HealthResponse: {
 				type: 'object',
 				required: ['status'],
