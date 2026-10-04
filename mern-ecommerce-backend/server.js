@@ -12,9 +12,11 @@ const startServer = async () => {
     await connectDB();
 
     app.listen(PORT, () => {
+        console.log("...........................APIs.............");
         console.log(`E-Commerce API running on http://localhost:${PORT}`);
         console.log(`Swagger docs running on http://localhost:${PORT}/api-docs`);
         console.log(`Redis health check running on http://localhost:${PORT}/api/health/redis`);
+        console.log(".........................../APIs.............");
     });
 }
 

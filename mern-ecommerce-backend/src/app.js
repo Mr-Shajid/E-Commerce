@@ -4,7 +4,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const swaggerUi = require("swagger-ui-express");
 const redis = require("./config/redis");
-
+const cookieParser = require("cookie-parser");
 
 const routes = require("./routes");
 const openApiDocument = require("./docs/openapi");
@@ -15,6 +15,9 @@ const app = express();
 
 
 app.use(helmet());
+
+app.use(cookieParser);
+
 app.use(cors({origin: process.env.CORS_ORIGIN || "*"}));
 app.use(morgan("dev"));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openApiDocument));
